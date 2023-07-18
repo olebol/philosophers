@@ -18,6 +18,7 @@ HDR_FILES :=	philosophers.h
 SRC_FILES :=	main.c							\
 				init.c							\
 				error.c							\
+				threads.c						\
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

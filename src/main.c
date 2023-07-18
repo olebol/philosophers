@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:33:00 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 20:01:26 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/18 23:09:53 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int ac, char **av)
 {
 	t_shared	*shared;
+	t_philo		**philos;
 
 	if (ac != 5 && ac != 6)
 		return (1);
@@ -23,7 +24,14 @@ int	main(int ac, char **av)
 	if (!shared)
 		return (2);
 
-	printf("input: %d %d %d %d %d\n", shared->number_of_philos, shared->death_time, shared->eat_time, shared->sleep_time, shared->times_to_eat);
+	printf("input: %d %d %d %d %d\n\n", shared->number_of_philos, shared->death_time, shared->eat_time, shared->sleep_time, shared->times_to_eat);
+
+	philos = init_philos(shared);
+	if (!philos)
+		return (3); // todo: free shared
+
+	if (start_threads(shared, philos) == 0)
+		return (4);
 
 	return (0);
 }
