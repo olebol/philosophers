@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 20:01:32 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/18 20:20:32 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,6 @@ struct s_philosopher
 t_shared	*init_shared(int ac, char **av);
 
 // error.c
+
+/** @brief Prints an error message to STDERR and frees the memory given as parameter data */
 void		*ft_error(void	*data, int err);
