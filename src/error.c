@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:57:54 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 20:01:45 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/18 20:20:40 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		ft_strlen(const char *str)
 	return (i);
 }
 
-void	*ft_error(void	*data, int err)
+void	*ft_error(void *data, int err)
 {
 	const char	*errors[2] = {
 		[0] = "Invalid arguments\n",
@@ -31,6 +31,7 @@ void	*ft_error(void	*data, int err)
 	
 	if (data)
 		free(data);
-	write(2, errors[err], ft_strlen(errors[err]));
+	if (err != -1)
+		write(2, errors[err], ft_strlen(errors[err]));
 	return (NULL);
 }

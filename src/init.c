@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 20:00:09 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/18 20:24:08 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_shared	*init_shared(int ac, char **av)
 		return (ft_error(shared, INVALID_ARGS));
 	if (ac == 6 && !ft_err_atoi(av[5], &shared->times_to_eat))
 		return (ft_error(shared, INVALID_ARGS));
-	else
+	else if (ac != 6)
 		shared->times_to_eat = 0;
 
 	return (shared);
