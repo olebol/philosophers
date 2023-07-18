@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/07/18 15:33:00 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 20:01:26 by opelser       ########   odam.nl         */
+/*   Created: 2023/07/18 19:57:54 by opelser       #+#    #+#                 */
+/*   Updated: 2023/07/18 20:01:45 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int ac, char **av)
+static int		ft_strlen(const char *str)
 {
-	t_shared	*shared;
+	int		i;
 
-	if (ac != 5 && ac != 6)
-		return (1);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
-	shared = init_shared(ac, av);
-	if (!shared)
-		return (2);
-
-	printf("input: %d %d %d %d %d\n", shared->number_of_philos, shared->death_time, shared->eat_time, shared->sleep_time, shared->times_to_eat);
-
-	return (0);
+void	*ft_error(void	*data, int err)
+{
+	const char	*errors[2] = {
+		[0] = "Invalid arguments\n",
+		[1] = NULL
+	} ;
+	
+	if (data)
+		free(data);
+	write(2, errors[err], ft_strlen(errors[err]));
+	return (NULL);
 }

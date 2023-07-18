@@ -16,6 +16,8 @@ HDR_FILES :=	philosophers.h
 
 # Files
 SRC_FILES :=	main.c							\
+				init.c							\
+				error.c							\
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
@@ -42,7 +44,7 @@ $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@gcc $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
 
 open: $(NAME)
-	@./$(NAME)
+	@./$(NAME) 3
 
 log:
 	git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all
