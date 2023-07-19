@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 23:09:22 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 14:19:55 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	*routine(void *data) // move this function?
 	t_philo		*philo;
 
 	philo = (t_philo *) data;
+	printf("%llu\t", time_since(philo->shared->start_time));
 	printf("Hello world from philo %d\n", philo->id);
 	return (NULL);
 }
@@ -53,6 +54,7 @@ int	start_threads(t_shared *shared, t_philo **philos)
 {
 	pthread_t	*threads;
 
+	shared->start_time = get_time();
 	threads = malloc(shared->number_of_philos * sizeof(pthread_t));
 	if (!create_threads(threads, philos, shared->number_of_philos))
 	{

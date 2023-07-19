@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/18 23:05:26 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 14:19:31 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 # include <unistd.h> // write
 # include <stdlib.h> // malloc and free
 # include <stdio.h> // printf
+
 # define INVALID_ARGS 0
+
+typedef unsigned long long		t_llu;
 
 typedef pthread_mutex_t			t_mutex;
 
@@ -31,6 +34,7 @@ struct s_shared_data
 	int			eat_time;
 	int			sleep_time;
 	int			times_to_eat;
+	t_llu		start_time;
 	t_mutex		*mutexes;
 }	;
 
@@ -54,5 +58,9 @@ void		*ft_error(void	*data, int err);
 
 // threads.c
 int			start_threads(t_shared *shared, t_philo **philos);
+
+// utils.c
+t_llu		get_time(void);
+t_llu		time_since(t_llu start);
 
 #endif
