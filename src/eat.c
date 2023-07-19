@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:21:44 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 20:48:08 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 23:01:49 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	eat(t_philo *philo)
 		return (0);
 	
 	// eat
+	philo->time_last_eat = time_since(philo->shared->start_time);
 	print_update(philo, "is eating");
 	philo->times_eaten++;
 	ft_sleep(philo->shared->eat_time);

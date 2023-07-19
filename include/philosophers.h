@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 20:47:32 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 22:59:41 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h> // write
 # include <stdlib.h> // malloc and free
 # include <stdio.h> // printf
+# include <stdbool.h>
 
 # define INVALID_ARGS "Invalid arguments"
 # define MUTEX_INIT "Mutex initialization failed"
@@ -44,6 +45,7 @@ struct s_shared_data
 	int			eat_time;
 	int			sleep_time;
 	int			times_to_eat;
+	bool		should_stop;
 	t_llu		start_time;
 	t_mutex		*mutexes;
 }	;
@@ -53,7 +55,7 @@ typedef struct s_philosopher	t_philo;
 struct s_philosopher
 {
 	int			id;
-	time_t		time_since_eat;
+	t_llu		time_last_eat;
 	int			times_eaten;
 	t_mutex		*left_fork;
 	t_mutex		*right_fork;

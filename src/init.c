@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 17:13:02 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 22:59:41 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_philo	**init_philos(t_shared *shared)
 			return (NULL); // todo: free all philos var + individual philos
 		current->id = i + 1;
 		current->times_eaten = 0;
-		current->time_since_eat = 0;
+		current->time_last_eat = 0;
 		current->shared = shared;
 		philos[i] = current;
 		i++;
