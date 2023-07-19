@@ -15,12 +15,15 @@ CFLAGS := -Wall -Werror -Wextra -g -fsanitize=address
 HDR_FILES :=	philosophers.h
 
 # Files
-SRC_FILES :=	main.c							\
-				init.c							\
-				error.c							\
-				threads.c						\
-				routine.c						\
-				utils.c							\
+SRC_FILES :=	main.c		\
+				init.c		\
+				error.c		\
+				threads.c	\
+				routine.c	\
+				utils.c		\
+				forks.c		\
+				print.c		\
+				eat.c		\
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

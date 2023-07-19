@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 16:33:18 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 17:13:02 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ static int	ft_err_atoi(const char *str, int *result)
 
 t_mutex	*init_mutexes(void)
 {
-	static t_mutex		mutexes[2];
+	static t_mutex		mutexes[1];
 
 	if (pthread_mutex_init(&mutexes[PRINT_MUTEX], NULL) != 0)
 		return (NULL);
+	// todo: destroy all mutexes on fail
 	return (mutexes);
 }
 
@@ -95,4 +96,23 @@ t_philo	**init_philos(t_shared *shared)
 		i++;
 	}
 	return (philos);
+}
+
+t_mutex	*init_forks(int	number_of_forks)
+{
+	t_mutex	*forks;
+	int		i;
+
+	forks = (t_mutex *) malloc(number_of_forks * sizeof(t_mutex));
+	if (!forks)
+		return (NULL);
+
+	i = 0;
+	while (i < number_of_forks)
+	{
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
+			return (ft_error(NULL, MUTEX_INIT)); // todo: destroy all mutexes
+		i++;
+	}
+	return (forks);
 }

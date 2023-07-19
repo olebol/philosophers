@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 16:26:45 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 20:52:17 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int	start_threads(t_shared *shared, t_philo **philos)
 		perror("Error joining threads\n");
 		return (0);
 	}
+	printf("\nAll philosophers have eaten %d times!\n", shared->times_to_eat);
 	return (1);
 }

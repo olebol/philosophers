@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:33:00 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 14:13:33 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 20:50:44 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av)
 {
 	t_shared	*shared;
 	t_philo		**philos;
+	t_mutex		*forks;
 
 	if (ac != 5 && ac != 6)
 		return (1);
@@ -30,9 +31,15 @@ int	main(int ac, char **av)
 	if (!philos)
 		return (3); // todo: free shared
 
-	if (start_threads(shared, philos) == 0)
+	forks = init_forks(shared->number_of_philos);
+	if (!forks)
 		return (4);
+	assign_forks(philos, forks, shared->number_of_philos);
 
+	if (start_threads(shared, philos) == 0)
+		return (5);
+
+	// todo: destroy mutexes
 
 	return (0);
 }
