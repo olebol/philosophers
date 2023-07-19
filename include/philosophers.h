@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 14:19:31 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 16:36:24 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdio.h> // printf
 
 # define INVALID_ARGS 0
+# define MUTEX_INIT 1
+
+#define PRINT_MUTEX 0
 
 typedef unsigned long long		t_llu;
 
@@ -58,6 +61,9 @@ void		*ft_error(void	*data, int err);
 
 // threads.c
 int			start_threads(t_shared *shared, t_philo **philos);
+
+// routine.c
+void		*routine(void *data);
 
 // utils.c
 t_llu		get_time(void);

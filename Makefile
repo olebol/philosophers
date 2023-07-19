@@ -19,6 +19,7 @@ SRC_FILES :=	main.c							\
 				init.c							\
 				error.c							\
 				threads.c						\
+				routine.c						\
 				utils.c							\
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))

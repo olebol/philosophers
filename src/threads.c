@@ -6,21 +6,11 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 14:19:55 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/19 16:26:45 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-
-static void	*routine(void *data) // move this function?
-{
-	t_philo		*philo;
-
-	philo = (t_philo *) data;
-	printf("%llu\t", time_since(philo->shared->start_time));
-	printf("Hello world from philo %d\n", philo->id);
-	return (NULL);
-}
 
 static int	create_threads(pthread_t *threads, t_philo **philos, int max_philos)
 {
@@ -39,12 +29,15 @@ static int	create_threads(pthread_t *threads, t_philo **philos, int max_philos)
 static int	join_threads(pthread_t *threads, int max_philos)
 {
 	int		i;
+	void	*routine_return;
 
 	i = 0;
 	while (i < max_philos)
 	{
-		if (pthread_join(threads[i], NULL) != 0)
+		if (pthread_join(threads[i], &routine_return) != 0)
 			return (0);
+		if (!routine_return)
+			write(2, "Thread execution failed\n", 25);
 		i++;
 	}
 	return (1);
