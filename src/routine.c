@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 21:58:12 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 23:12:00 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*routine(void *data)
 	t_philo		*philo;
 
 	philo = (t_philo *) data;
-	if (!philo->id % 2)
+	if (philo->id % 2)
 		usleep(200);
 	while (1) // todo: this stops them from eating, even if not all of them have finished all their meals yet
 	{

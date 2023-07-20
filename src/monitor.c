@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 21:49:03 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 22:37:54 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static bool	is_any_philosopher_dead(t_shared *shared, t_philo *philos)
 	{
 		pthread_mutex_lock(&philos[i].eat_mutex);
 		time_since_meal = get_time() - philos[i].time_last_eat;
-		// printf("time check: %llu\n", time_since_meal);
 		if (time_since_meal > (t_llu) shared->death_time)
 		{
 			pthread_mutex_unlock(&philos[i].eat_mutex);
@@ -63,9 +62,7 @@ bool	should_stop(t_shared *shared)
 {
 	bool	ret;
 
-	// printf("waiting for stop lock\n");
 	pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
-	// printf("no longer waiting for stop lock\n");
 
 	ret = shared->should_stop;
 

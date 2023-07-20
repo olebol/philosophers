@@ -9,7 +9,7 @@ OBJ_DIR := obj
 
 # Compiler flags
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra # -g -g -fsanitize=thread
+CFLAGS := -Wall -Werror -Wextra # -g -fsanitize=thread
 
 # Includes
 HDR_FILES :=	philosophers.h
@@ -22,7 +22,7 @@ SRC_FILES :=	main.c		\
 				threads.c	\
 \
 				routine.c	\
-				death.c		\
+				monitor.c	\
 				eat.c		\
 \
 				print.c		\
@@ -54,7 +54,7 @@ $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@gcc $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
 
 open: $(NAME)
-	@./$(NAME) 5 800 200 100 2
+	@./$(NAME) 15 800 200 100 2
 
 log:
 	git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all
