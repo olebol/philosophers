@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 19:13:04 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 21:54:37 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,24 @@ static int	create_threads(pthread_t *threads, t_philo *philos, int max_philos)
 	i = 0;
 	while (i < max_philos)
 	{
+		philos[i].time_last_eat = get_time();
 		if (pthread_create(&threads[i], NULL, &routine, &philos[i]) != 0)
-			return (0); // todo : free prev
+			return (0); // todo : join prev
 		i++;
 	}
 	return (1);
 }
 
-static int	join_threads(pthread_t *threads, int max_philos)
+static void	join_threads(pthread_t *threads, int max_philos)
 {
 	int		i;
 
 	i = 0;
 	while (i < max_philos)
 	{
-		if (pthread_join(threads[i], NULL) != 0)
-			return (0); // todo : free prev
+		pthread_join(threads[i], NULL);
 		i++;
 	}
-	return (1);
 }
 
 int	start_threads(t_shared *shared, t_philo *philos)
@@ -52,10 +51,6 @@ int	start_threads(t_shared *shared, t_philo *philos)
 		return (0);
 	}
 	check_for_death_main_thread(shared, philos);
-	if (!join_threads(threads, shared->number_of_philos))
-	{
-		ft_error(NULL, "Error joining threads\n");
-		return (0);
-	}
+	join_threads(threads, shared->number_of_philos);
 	return (1);
 }

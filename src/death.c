@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 19:16:45 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 21:49:03 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 static bool	is_any_philosopher_dead(t_shared *shared, t_philo *philos)
 {
 	int		i;
+	t_llu	time_since_meal;
 
 	i = 0;
 	while (i < shared->number_of_philos)
 	{
 		pthread_mutex_lock(&philos[i].eat_mutex);
-		if ((int) philos[i].time_last_eat > shared->death_time)
+		time_since_meal = get_time() - philos[i].time_last_eat;
+		// printf("time check: %llu\n", time_since_meal);
+		if (time_since_meal > (t_llu) shared->death_time)
 		{
 			pthread_mutex_unlock(&philos[i].eat_mutex);
 			print_update(&philos[i], "died");
@@ -48,6 +51,7 @@ static bool	is_everyone_full(t_shared *shared, t_philo *philos)
 			return (false);
 		}
 		pthread_mutex_unlock(&philos[i].eat_mutex);
+		i++;
 	}
 	pthread_mutex_lock(&shared->mutexes[PRINT]);
 	printf("\nAll philosophers have eaten %d times!\n", shared->times_to_eat);

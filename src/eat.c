@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:21:44 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 20:51:50 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 21:26:47 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->eat_mutex);
 		return (0);
 	}
-	philo->time_last_eat = time_since(philo->shared->start_time);
+	philo->time_last_eat = get_time();
 	philo->times_eaten++;
 	pthread_mutex_unlock(&philo->eat_mutex);
 	ft_sleep(philo->shared->eat_time);
