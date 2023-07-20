@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:21:44 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 23:01:49 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/20 19:15:38 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ int	eat(t_philo *philo)
 	// think
 	print_update(philo, "is thinking");
 
-	// try to lock forks (put this in a separate function to print when philo takes a fork)
+	// try to lock forks
 	if (!take_fork(philo, LEFT) || !take_fork(philo, RIGHT))
 		return (0);
 	
 	// eat
-	philo->time_last_eat = time_since(philo->shared->start_time);
+	pthread_mutex_lock(&philo->eat_mutex);
 	print_update(philo, "is eating");
+	philo->time_last_eat = time_since(philo->shared->start_time);
 	philo->times_eaten++;
+	pthread_mutex_unlock(&philo->eat_mutex);
 	ft_sleep(philo->shared->eat_time);
 
 	//try to unlock forks
