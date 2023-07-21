@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 16:56:58 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 18:59:59 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "colors.h"
 #define COLOUR_COUNT 5
 
-static void	print_colour(int id)
+static void	print_colour(int id, bool should_print)
 {
 	char	*colors[COLOUR_COUNT] = {
 		[0] = C_LYELLOW,
@@ -23,21 +23,23 @@ static void	print_colour(int id)
 		[3] = C_BLUE,
 		[4] = C_LBLUE
 	};
-	printf("%s", colors[id % COLOUR_COUNT]);
+
+	if (should_print == true)
+		printf("%s", colors[id % COLOUR_COUNT]);
 }
 
 int		print_update(t_philo *philo, char *str)
 {
 	t_llu		time;
 
-	time = time_since(philo->shared->start_time);
 	pthread_mutex_lock(&philo->shared->mutexes[PRINT]);
 	if (should_stop(philo->shared) == true)
 	{
 		pthread_mutex_unlock(&philo->shared->mutexes[PRINT]);
 		return (0);
 	}
-	print_colour(philo->id);
+	time = time_since(philo->shared->start_time);
+	print_colour(philo->id, false);
 	printf("%llu %d %s%s\n", time, philo->id, str, C_RESET);
 
 	pthread_mutex_unlock(&philo->shared->mutexes[PRINT]);
