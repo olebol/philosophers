@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 19:29:21 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:54:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	take_fork(t_philo *philo, int direction)
 {
 	if (direction == LEFT && pthread_mutex_lock(philo->left_fork) != 0)
 	{
-		ft_error(NULL, MUTEX_LOCK, 0);
+		ft_error(MUTEX_LOCK, 0);
 		return (0);
 	}
 	if (direction == RIGHT && pthread_mutex_lock(philo->right_fork) != 0)
 	{
-		ft_error(NULL, MUTEX_LOCK, 0);
+		ft_error(MUTEX_LOCK, 0);
 		return (0);
 	}
 	print_update(philo, "has taken a fork");
@@ -32,12 +32,12 @@ static int	leave_fork(t_philo *philo, int direction)
 {
 	if (direction == LEFT && pthread_mutex_unlock(philo->left_fork) != 0)
 	{
-		ft_error(NULL, MUTEX_UNLOCK, 0);
+		ft_error(MUTEX_UNLOCK, 0);
 		return (0);
 	}
 	if (direction == RIGHT && pthread_mutex_unlock(philo->right_fork) != 0)
 	{
-		ft_error(NULL, MUTEX_UNLOCK, 0);
+		ft_error(MUTEX_UNLOCK, 0);
 		return (0);
 	}
 	return (1);

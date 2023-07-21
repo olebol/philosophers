@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:33:00 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 16:54:44 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:54:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 	t_philo		*philos;
 
 	if (ac != 5 && ac != 6)
-		return (ft_error(NULL, INVALID_ARGS, 1));
+		return (ft_error(INVALID_ARGS, 1));
 	if (!init_shared(&shared, ac, av))
 		return (2);
 	if (!init_shared_mutexes(&shared))

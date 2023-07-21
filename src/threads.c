@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 17:05:14 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:54:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	handle_threads(t_shared *shared, t_philo *philos)
 	threads = malloc(shared->number_of_philos * sizeof(pthread_t));
 	if (!create_threads(threads, philos, shared->number_of_philos))
 	{
-		ft_error(NULL, "Error creating threads\n", 0);
+		ft_error("Error creating threads\n", 0);
 		cleanup(philos, shared);
 		return (0);
 	}

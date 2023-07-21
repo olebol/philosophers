@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mutexes.c                                          :+:    :+:            */
+/*   init_mutexes.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:39:39 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 16:51:16 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:54:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_eat_mutexes(t_philo *philos, int amount)
 		if (pthread_mutex_init(&philos[i].eat_mutex, NULL) != 0)
 		{
 			destroy_eat_mutexes(philos, i);
-			ft_error(NULL, MUTEX_INIT, 0);
+			ft_error(MUTEX_INIT, 0);
 			return (0);
 		}
 		i++;
@@ -40,7 +40,7 @@ int	init_shared_mutexes(t_shared *shared)
 		if (pthread_mutex_init(&shared->mutexes[i], NULL) != 0)
 		{
 			destroy_mutex_array(shared->mutexes, i);
-			ft_error(NULL, MUTEX_INIT, 0);
+			ft_error(MUTEX_INIT, 0);
 			return (0);
 		}
 		i++;

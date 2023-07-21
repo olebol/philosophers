@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 18:59:59 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:55:41 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ int		print_update(t_philo *philo, char *str)
 	return (1);
 }
 
-int	ft_error(void *data, char *str, int ret)
+int	ft_error(char *str, int ret)
 {
-	if (data)
-		free(data);
-
 	printf("%s%s%s\n", C_RED, str, C_RESET);
 	return (ret);
 }

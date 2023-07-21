@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 19:47:52 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:55:47 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,19 @@ int	init_philos(t_philo **philo_ptr, t_shared *shared)
 int	init_shared(t_shared *shared, int ac, char **av)
 {
 	if (!ft_err_atoi(av[1], &shared->number_of_philos))
-		return (ft_error(shared, INVALID_ARGS, 0));
+		return (ft_error(INVALID_ARGS, 0));
 	if (!ft_err_atoi(av[2], &shared->death_time))
-		return (ft_error(shared, INVALID_ARGS, 0));
+		return (ft_error(INVALID_ARGS, 0));
 	if (!ft_err_atoi(av[3], &shared->eat_time))
-		return (ft_error(shared, INVALID_ARGS, 0));
+		return (ft_error(INVALID_ARGS, 0));
 	if (!ft_err_atoi(av[4], &shared->sleep_time))
-		return (ft_error(shared, INVALID_ARGS, 0));
+		return (ft_error(INVALID_ARGS, 0));
 	if (ac == 6 && !ft_err_atoi(av[5], &shared->times_to_eat))
-		return (ft_error(shared, INVALID_ARGS, 0));
+		return (ft_error(INVALID_ARGS, 0));
 	else if (ac != 6)
 		shared->times_to_eat = 0;
 	shared->start_time = 0;
 	if (!check_philo_amount(shared->number_of_philos, shared->death_time))
-		return (0);
-
+		return (ft_error(INVALID_ARGS, 0));
 	return (1);
 }
