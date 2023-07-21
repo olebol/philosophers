@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 21:35:42 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 16:56:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 static void	print_colour(int id)
 {
 	char	*colors[COLOUR_COUNT] = {
-		[0] = C_YELLOW,
-		[1] = C_GREEN,
+		[0] = C_LYELLOW,
+		[1] = C_LGREEN,
 		[2] = C_RED,
 		[3] = C_BLUE,
 		[4] = C_LBLUE
@@ -42,4 +42,13 @@ int		print_update(t_philo *philo, char *str)
 
 	pthread_mutex_unlock(&philo->shared->mutexes[PRINT]);
 	return (1);
+}
+
+int	ft_error(void *data, char *str, int ret)
+{
+	if (data)
+		free(data);
+
+	printf("%s%s%s\n", C_RED, str, C_RESET);
+	return (ret);
 }

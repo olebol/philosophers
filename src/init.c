@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 21:41:14 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 17:05:50 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,46 @@ static int	ft_err_atoi(const char *str, int *result)
 	return (1);
 }
 
-int	init_shared(t_shared *shared, int ac, char **av)
+static void	assign_forks(t_philo *philos, t_mutex *forks, int amount)
 {
-	if (!ft_err_atoi(av[1], &shared->number_of_philos))
-		return (ft_error(shared, INVALID_ARGS), 0);
-	if (!ft_err_atoi(av[2], &shared->death_time))
-		return (ft_error(shared, INVALID_ARGS), 0);
-	if (!ft_err_atoi(av[3], &shared->eat_time))
-		return (ft_error(shared, INVALID_ARGS), 0);
-	if (!ft_err_atoi(av[4], &shared->sleep_time))
-		return (ft_error(shared, INVALID_ARGS), 0);
-	if (ac == 6 && !ft_err_atoi(av[5], &shared->times_to_eat))
-		return (ft_error(shared, INVALID_ARGS), 0);
-	else if (ac != 6)
-		shared->times_to_eat = 0;
-	shared->start_time = 0;
+	int		i;
+	
+	i = 0;
+	while (i < amount)
+	{
+		philos[i].left_fork = &forks[i];
+		if (i + 1 != amount)
+			philos[i + 1].right_fork = &forks[i];
+		i++;
+	}
+	philos[0].right_fork = &forks[i - 1];
+}
 
+static int	set_forks_and_eat_mutexes(t_philo *philos, t_shared *shared)
+{
+	t_mutex		*forks;
+	int			amount;
+
+	amount = shared->number_of_philos;
+	if (!init_eat_mutexes(philos, amount))
+	{
+		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
+		free(philos);
+		return (0);
+	}
+
+	if (!init_forks(&forks, amount))
+	{
+		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
+		destroy_eat_mutexes(philos, amount);
+		free(philos);
+		return (0);
+	}
+	assign_forks(philos, forks, amount);
 	return (1);
 }
 
-t_philo	*init_philos(t_shared *shared)
+int	init_philos(t_philo **philo_ptr, t_shared *shared)
 {
 	t_philo		*philos;
 	t_philo		*current;
@@ -62,7 +82,10 @@ t_philo	*init_philos(t_shared *shared)
 
 	philos = (t_philo *) malloc(shared->number_of_philos * sizeof(t_philo));
 	if (!philos)
-		return (NULL);
+	{
+		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
+		return (0);
+	}
 	i = 0;
 	while (i < shared->number_of_philos)
 	{
@@ -73,6 +96,27 @@ t_philo	*init_philos(t_shared *shared)
 		current->shared = shared;
 		i++;
 	}
-	return (philos);
+	if (!set_forks_and_eat_mutexes(philos, shared))
+		return (0);
+	*philo_ptr = philos;
+	return (1);
 }
 
+int	init_shared(t_shared *shared, int ac, char **av)
+{
+	if (!ft_err_atoi(av[1], &shared->number_of_philos))
+		return (ft_error(shared, INVALID_ARGS, 0));
+	if (!ft_err_atoi(av[2], &shared->death_time))
+		return (ft_error(shared, INVALID_ARGS, 0));
+	if (!ft_err_atoi(av[3], &shared->eat_time))
+		return (ft_error(shared, INVALID_ARGS, 0));
+	if (!ft_err_atoi(av[4], &shared->sleep_time))
+		return (ft_error(shared, INVALID_ARGS, 0));
+	if (ac == 6 && !ft_err_atoi(av[5], &shared->times_to_eat))
+		return (ft_error(shared, INVALID_ARGS, 0));
+	else if (ac != 6)
+		shared->times_to_eat = 0;
+	shared->start_time = 0;
+
+	return (1);
+}

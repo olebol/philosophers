@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 18:37:41 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 17:05:14 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@
 # define MUTEX_LOCK "Mutex locking failed"
 # define MUTEX_UNLOCK "Mutex unlocking failed"
 
-# define TAKE_FORK	"has taken a fork"
-
 #define LEFT 0
 #define RIGHT 1
-
 
 typedef enum e_shared_mutexes {
 	PRINT,
@@ -39,7 +36,6 @@ typedef enum e_shared_mutexes {
 
 typedef unsigned long long		t_llu;
 typedef pthread_mutex_t			t_mutex;
-
 
 typedef struct s_shared_data	t_shared;
 
@@ -70,39 +66,35 @@ struct s_philosopher
 
 // init.c
 int			init_shared(t_shared *shared, int ac, char **av);
-t_philo		*init_philos(t_shared *shared);
+int			init_philos(t_philo **philo_ptr, t_shared *shared);
 
-// mutexes.c
+// init_mutexes.c
 int			init_eat_mutexes(t_philo *philos, int amount);
 int			init_shared_mutexes(t_shared *shared);
-t_mutex		*init_forks(int	number_of_forks);
-
-// error.c
-/** @brief Prints an error message to STDERR and frees the memory given as parameter data */
-void		*ft_error(void *data, char *str);
+int			init_forks(t_mutex **forks, int number_of_forks);
 
 // threads.c
-int			start_threads(t_shared *shared, t_philo *philos);
+int			handle_threads(t_shared *shared, t_philo *philos);
 
 // routine.c
 void		*routine(void *data);
+
+// monitor.c
+int			monitor(t_shared *shared, t_philo *philos);
+bool		should_stop(t_shared *shared);
 
 // utils.c
 t_llu		get_time(void);
 t_llu		time_since(t_llu start);
 void		ft_sleep(int time_to_wait);
 
-// forks.c
-void		assign_forks(t_philo *philos, t_mutex *forks, int amount);
-
 // print.c
 int			print_update(t_philo *philo, char *str);
+int			ft_error(void *data, char *str, int ret);
 
-// eat.c
-int			eat(t_philo *philo);
-
-// death.c
-int			check_for_death_main_thread(t_shared *shared, t_philo *philos);
-bool		should_stop(t_shared *shared);
+// cleanup.c
+void		destroy_eat_mutexes(t_philo *philos, int amount);
+void		destroy_mutex_array(t_mutex *mutexes, int amount);
+void		cleanup(t_philo *philos, t_shared *shared);
 
 #endif

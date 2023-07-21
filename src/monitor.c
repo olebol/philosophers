@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   death.c                                            :+:    :+:            */
+/*   monitor.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/20 22:37:54 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 17:05:14 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ bool	should_stop(t_shared *shared)
 	return (ret);
 }
 
-int	check_for_death_main_thread(t_shared *shared, t_philo *philos)
+int	monitor(t_shared *shared, t_philo *philos)
 {
 	while (1)
 	{
