@@ -29,7 +29,11 @@ cd philosophers
 
 3. Run Make to compile the program
 ```
-make
+make COLOUR=0
+```
+or
+```
+make COLOUR=1
 ```
 
 4. Execute the program
