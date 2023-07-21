@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 17:05:50 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:47:52 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int	init_shared(t_shared *shared, int ac, char **av)
 	else if (ac != 6)
 		shared->times_to_eat = 0;
 	shared->start_time = 0;
+	if (!check_philo_amount(shared->number_of_philos, shared->death_time))
+		return (0);
 
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 16:58:43 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:29:21 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static int	eat(t_philo *philo)
 	// try to lock forks
 	if (!take_fork(philo, LEFT) || !take_fork(philo, RIGHT))
 		return (0);
-	
 	// eat
 	pthread_mutex_lock(&philo->eat_mutex);
 	if (!print_update(philo, "is eating"))
@@ -65,11 +64,9 @@ static int	eat(t_philo *philo)
 	philo->times_eaten++;
 	pthread_mutex_unlock(&philo->eat_mutex);
 	ft_sleep(philo->shared->eat_time);
-
 	//try to unlock forks
 	if (!leave_fork(philo, LEFT) || !leave_fork(philo, RIGHT))
 		return (0);
-
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 13:22:40 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/19 20:50:22 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 19:52:44 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ t_llu	get_time(void)
 t_llu	time_since(t_llu start)
 {
 	return ((get_time() - start));
+}
+
+int	check_philo_amount(int philos, int time)
+{
+	if (philos == 0)
+		return (0);
+	if (philos == 1)
+	{
+		printf("0 1 is thinking\n0 1 has taken a fork\n%d has died\n", time+1);
+		return (0);
+	}
+	return (1);
 }
