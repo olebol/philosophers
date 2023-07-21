@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 17:05:14 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 23:52:59 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,18 @@
 static bool	is_any_philosopher_dead(t_shared *shared, t_philo *philos)
 {
 	int		i;
-	t_llu	time_since_meal;
 
 	i = 0;
 	while (i < shared->number_of_philos)
 	{
-		pthread_mutex_lock(&philos[i].eat_mutex);
-		time_since_meal = get_time() - philos[i].time_last_eat;
-		if (time_since_meal > (t_llu) shared->death_time)
+		pthread_mutex_lock(&philos[i].last_eat_mutex);
+		if (get_time() - philos[i].time_last_eat > (t_llu) shared->death_time)
 		{
-			pthread_mutex_unlock(&philos[i].eat_mutex);
 			print_update(&philos[i], "died");
+			pthread_mutex_unlock(&philos[i].last_eat_mutex);
 			return (true);
 		}
-		pthread_mutex_unlock(&philos[i].eat_mutex);
+		pthread_mutex_unlock(&philos[i].last_eat_mutex);
 		i++;
 	}
 	return (false);
@@ -39,8 +37,6 @@ static bool	is_everyone_full(t_shared *shared, t_philo *philos)
 	int		i;
 
 	i = 0;
-	if (shared->times_to_eat == 0)
-		return (false);
 	while (i < shared->number_of_philos)
 	{
 		pthread_mutex_lock(&philos[i].eat_mutex);
@@ -63,9 +59,7 @@ bool	should_stop(t_shared *shared)
 	bool	ret;
 
 	pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
-
 	ret = shared->should_stop;
-
 	pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
 	return (ret);
 }
@@ -75,13 +69,20 @@ int	monitor(t_shared *shared, t_philo *philos)
 	while (1)
 	{
 		if (is_any_philosopher_dead(shared, philos) == true)
-			break ;
-		if (is_everyone_full(shared, philos) == true)
-			break ;
+		{
+			pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
+			shared->should_stop = true;
+			pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
+			return (0);
+		}
+		if (shared->times_to_eat && is_everyone_full(shared, philos) == true)
+		{
+			pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
+			shared->should_stop = true;
+			pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
+			return (1);
+		}
+		usleep(3);
 	}
-	pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
-	shared->should_stop = true;
-	pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
 	return (1);
 }
-

@@ -6,14 +6,14 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 19:24:49 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 19:55:47 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 23:52:44 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-#include <limits.h> // MAX and MIN INT
+#include <limits.h>
 
-static int	ft_err_atoi(const char *str, int *result)
+static int	ft_atoi_error(const char *str, int *result)
 {
 	int		i;
 	long	tmp;
@@ -38,7 +38,7 @@ static int	ft_err_atoi(const char *str, int *result)
 static void	assign_forks(t_philo *philos, t_mutex *forks, int amount)
 {
 	int		i;
-	
+
 	i = 0;
 	while (i < amount)
 	{
@@ -50,19 +50,24 @@ static void	assign_forks(t_philo *philos, t_mutex *forks, int amount)
 	philos[0].right_fork = &forks[i - 1];
 }
 
-static int	set_forks_and_eat_mutexes(t_philo *philos, t_shared *shared)
+static int	set_forks_and_mutexes(t_philo *philos, t_shared *shared)
 {
 	t_mutex		*forks;
-	int			amount;
+	const int	amount = shared->number_of_philos;
 
-	amount = shared->number_of_philos;
 	if (!init_eat_mutexes(philos, amount))
 	{
 		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
 		free(philos);
 		return (0);
 	}
-
+	if (!init_last_eat_mutexes(philos, amount))
+	{
+		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
+		destroy_eat_mutexes(philos, amount);
+		free(philos);
+		return (0);
+	}
 	if (!init_forks(&forks, amount))
 	{
 		destroy_mutex_array(shared->mutexes, SHARED_MUTEXES_SIZE);
@@ -96,7 +101,7 @@ int	init_philos(t_philo **philo_ptr, t_shared *shared)
 		current->shared = shared;
 		i++;
 	}
-	if (!set_forks_and_eat_mutexes(philos, shared))
+	if (!set_forks_and_mutexes(philos, shared))
 		return (0);
 	*philo_ptr = philos;
 	return (1);
@@ -104,20 +109,16 @@ int	init_philos(t_philo **philo_ptr, t_shared *shared)
 
 int	init_shared(t_shared *shared, int ac, char **av)
 {
-	if (!ft_err_atoi(av[1], &shared->number_of_philos))
-		return (ft_error(INVALID_ARGS, 0));
-	if (!ft_err_atoi(av[2], &shared->death_time))
-		return (ft_error(INVALID_ARGS, 0));
-	if (!ft_err_atoi(av[3], &shared->eat_time))
-		return (ft_error(INVALID_ARGS, 0));
-	if (!ft_err_atoi(av[4], &shared->sleep_time))
-		return (ft_error(INVALID_ARGS, 0));
-	if (ac == 6 && !ft_err_atoi(av[5], &shared->times_to_eat))
-		return (ft_error(INVALID_ARGS, 0));
-	else if (ac != 6)
-		shared->times_to_eat = 0;
+	shared->times_to_eat = 0;
 	shared->start_time = 0;
-	if (!check_philo_amount(shared->number_of_philos, shared->death_time))
+	shared->philos_created = 0;
+	if (!ft_atoi_error(av[1], &shared->number_of_philos)
+		|| (!ft_atoi_error(av[2], &shared->death_time))
+		|| (!ft_atoi_error(av[3], &shared->eat_time))
+		|| (!ft_atoi_error(av[4], &shared->sleep_time))
+		|| (ac == 6 && !ft_atoi_error(av[5], &shared->times_to_eat)))
 		return (ft_error(INVALID_ARGS, 0));
+	if (!check_philo_amount(shared->number_of_philos, shared->death_time))
+		return (0);
 	return (1);
 }

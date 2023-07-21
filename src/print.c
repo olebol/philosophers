@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 19:55:41 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 23:53:55 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 #include "colors.h"
 #define COLOUR_COUNT 5
 
-static void	print_colour(int id, bool should_print)
+static void	print_colour(int id)
 {
-	char	*colors[COLOUR_COUNT] = {
-		[0] = C_LYELLOW,
-		[1] = C_LGREEN,
-		[2] = C_RED,
-		[3] = C_BLUE,
-		[4] = C_LBLUE
+	const char	*colors[COLOUR_COUNT] = {
+	[0] = C_LYELLOW,
+	[1] = C_LGREEN,
+	[2] = C_RED,
+	[3] = C_BLUE,
+	[4] = C_LBLUE
 	};
 
-	if (should_print == true)
-		printf("%s", colors[id % COLOUR_COUNT]);
+	printf("%s", colors[id % COLOUR_COUNT]);
 }
 
-int		print_update(t_philo *philo, char *str)
+int	print_update(t_philo *philo, char *str)
 {
 	t_llu		time;
 
@@ -39,9 +38,11 @@ int		print_update(t_philo *philo, char *str)
 		return (0);
 	}
 	time = time_since(philo->shared->start_time);
-	print_colour(philo->id, false);
-	printf("%llu %d %s%s\n", time, philo->id, str, C_RESET);
-
+	if (COLOUR_ON)
+		print_colour(philo->id);
+	printf("%llu %d %s\n", time, philo->id, str);
+	if (COLOUR_ON)
+		printf("%s", C_RESET);
 	pthread_mutex_unlock(&philo->shared->mutexes[PRINT]);
 	return (1);
 }

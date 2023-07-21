@@ -6,11 +6,29 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:39:39 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 19:54:58 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/21 23:52:52 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	init_last_eat_mutexes(t_philo *philos, int amount)
+{
+	int		i;
+
+	i = 0;
+	while (i < amount)
+	{
+		if (pthread_mutex_init(&philos[i].last_eat_mutex, NULL) != 0)
+		{
+			destroy_last_eat_mutexes(philos, i);
+			ft_error(MUTEX_INIT, 0);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 int	init_eat_mutexes(t_philo *philos, int amount)
 {
@@ -56,7 +74,6 @@ int	init_forks(t_mutex **forks, int number_of_forks)
 	forks_arr = (t_mutex *) malloc(number_of_forks * sizeof(t_mutex));
 	if (!forks_arr)
 		return (0);
-
 	i = 0;
 	while (i < number_of_forks)
 	{
