@@ -1,6 +1,6 @@
 # Philosophers
 
-This repository contains a program that simulates the classic Dining Philosophers problem. The objective of this project is to implement a program written solely in C without the use of global variables and completely abiding by 42 Network's *Norme*. The goal of this project is to get a basic understanding of threads and multithreading.
+This repository contains a program that simulates the classic Dining Philosophers problem. The objective of this project is to implement a program written solely in C without the use of global variables and completely abiding by 42 Network's *Norme*. This project is an introduction to threads and multithreading.
 
 The Dining Philosophers problem involves a group of philosophers sitting around a circular table with a bowl of rice and a fork between each pair of adjacent philosophers. The philosophers alternate between thinking and eating, and they require two forks to eat their meal.
 
