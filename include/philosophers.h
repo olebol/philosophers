@@ -29,9 +29,6 @@
 # define MUTEX_LOCK "Mutex locking failed"
 # define MUTEX_UNLOCK "Mutex unlocking failed"
 
-# define LEFT 0
-# define RIGHT 1
-
 typedef enum e_shared_mutexes {
 	PRINT,
 	SHOULD_STOP,
@@ -58,7 +55,6 @@ struct s_shared_data
 
 	bool		should_stop;
 
-	t_mutex		*forks;
 	t_mutex		mutexes[SHARED_MUTEXES_SIZE];
 }	;
 
