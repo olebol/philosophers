@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 19:10:09 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 20:59:46 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	lock_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->left_fork);
 	if (!print_update(philo, "has taken a fork"))
 	{
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (0);
 	}
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(philo->right_fork);
 	if (!print_update(philo, "has taken a fork"))
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -40,8 +40,7 @@ static int	eat(t_philo *philo)
 {
 	if (!lock_forks(philo))
 		return (0);
-	if (pthread_mutex_lock(&philo->last_eat_mutex) != 0)
-		printf("FUCK\n");
+	pthread_mutex_lock(&philo->last_eat_mutex);
 	philo->time_last_eat = get_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
 	if (!print_update(philo, "is eating"))
@@ -51,8 +50,7 @@ static int	eat(t_philo *philo)
 	}
 	if (philo->shared->times_to_eat)
 	{
-		if (pthread_mutex_lock(&philo->eat_mutex) != 0)
-			printf("FUCK\n");
+		pthread_mutex_lock(&philo->eat_mutex);
 		philo->times_eaten++;
 		pthread_mutex_unlock(&philo->eat_mutex);
 	}
