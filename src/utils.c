@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 13:22:40 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:55:41 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 18:26:34 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_sleep(int time_to_wait)
 	t_llu	start;
 
 	start = get_time();
+	usleep((time_to_wait / 2) * 1000);
 	while ((get_time() - start) < (t_llu) time_to_wait)
 		usleep(250);
 }
@@ -35,16 +36,12 @@ t_llu	time_since(t_llu start)
 	return ((get_time() - start));
 }
 
-int	check_philo_amount(int philos, int time)
+bool	should_stop(t_shared *shared)
 {
-	if (philos == 0)
-		return (ft_error(INVALID_ARGS, 0));
-	if (philos == 1)
-	{
-		printf("0 1 is thinking\n");
-		printf("0 1 has taken a fork\n");
-		printf("%d has died\n", time +1);
-		return (0);
-	}
-	return (1);
+	bool	ret;
+
+	pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
+	ret = shared->should_stop;
+	pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
+	return (ret);
 }

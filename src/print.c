@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:53:55 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 18:45:41 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ int	print_update(t_philo *philo, char *str)
 {
 	t_llu		time;
 
-	pthread_mutex_lock(&philo->shared->mutexes[PRINT]);
+	if (pthread_mutex_lock(&philo->shared->mutexes[PRINT]) != 0)
+		printf("FUCK\n");
+	time = time_since(philo->shared->start_time);
 	if (should_stop(philo->shared) == true)
 	{
 		pthread_mutex_unlock(&philo->shared->mutexes[PRINT]);
 		return (0);
 	}
-	time = time_since(philo->shared->start_time);
 	if (COLOUR_ON)
 		print_colour(philo->id);
 	printf("%llu %d %s\n", time, philo->id, str);

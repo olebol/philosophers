@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:52:59 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 17:26:47 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static bool	is_any_philosopher_dead(t_shared *shared, t_philo *philos)
 		pthread_mutex_lock(&philos[i].last_eat_mutex);
 		if (get_time() - philos[i].time_last_eat > (t_llu) shared->death_time)
 		{
-			print_update(&philos[i], "died");
 			pthread_mutex_unlock(&philos[i].last_eat_mutex);
+			print_update(&philos[i], "died");
 			return (true);
 		}
 		pthread_mutex_unlock(&philos[i].last_eat_mutex);
@@ -54,18 +54,9 @@ static bool	is_everyone_full(t_shared *shared, t_philo *philos)
 	return (true);
 }
 
-bool	should_stop(t_shared *shared)
-{
-	bool	ret;
-
-	pthread_mutex_lock(&shared->mutexes[SHOULD_STOP]);
-	ret = shared->should_stop;
-	pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
-	return (ret);
-}
-
 int	monitor(t_shared *shared, t_philo *philos)
 {
+	usleep(shared->death_time / 2 * 100);
 	while (1)
 	{
 		if (is_any_philosopher_dead(shared, philos) == true)
@@ -82,7 +73,7 @@ int	monitor(t_shared *shared, t_philo *philos)
 			pthread_mutex_unlock(&shared->mutexes[SHOULD_STOP]);
 			return (1);
 		}
-		usleep(3);
+		usleep(250);
 	}
 	return (1);
 }

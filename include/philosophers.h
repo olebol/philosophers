@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:52:07 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 17:27:01 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 typedef enum e_shared_mutexes {
 	PRINT,
-	SHOULD_STOP,
 	SHOULD_START,
+	SHOULD_STOP,
 	SHARED_MUTEXES_SIZE
 }	t_shared_mutexes;
 
@@ -55,6 +55,7 @@ struct s_shared_data
 
 	bool		should_stop;
 
+	t_mutex		*forks;
 	t_mutex		mutexes[SHARED_MUTEXES_SIZE];
 }	;
 
@@ -83,7 +84,7 @@ int			init_philos(t_philo **philo_ptr, t_shared *shared);
 int			init_last_eat_mutexes(t_philo *philos, int amount);
 int			init_eat_mutexes(t_philo *philos, int amount);
 int			init_shared_mutexes(t_shared *shared);
-int			init_forks(t_mutex **forks, int number_of_forks);
+int			init_forks(t_shared *shared, int number_of_forks);
 
 // threads.c
 int			handle_threads(t_shared *shared, t_philo *philos);
@@ -93,13 +94,12 @@ void		*routine(void *data);
 
 // monitor.c
 int			monitor(t_shared *shared, t_philo *philos);
-bool		should_stop(t_shared *shared);
 
 // utils.c
 t_llu		get_time(void);
 t_llu		time_since(t_llu start);
 void		ft_sleep(int time_to_wait);
-int			check_philo_amount(int philos, int time);
+bool		should_stop(t_shared *shared);
 
 // print.c
 int			print_update(t_philo *philo, char *str);

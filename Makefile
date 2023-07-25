@@ -62,6 +62,9 @@ log:
 norm:
 	@norminette $(HDR_DIR) $(SRC)
 
+test:
+	@rm -rf ./errors
+
 clean:
 	@echo "$(RED)$(BOLD)Cleaning $(NICKNAME)...$(RESET)"
 	@rm -rf $(OBJ)

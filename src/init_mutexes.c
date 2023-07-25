@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:39:39 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:52:52 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 15:13:28 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,24 @@ int	init_shared_mutexes(t_shared *shared)
 	return (1);
 }
 
-int	init_forks(t_mutex **forks, int number_of_forks)
+int	init_forks(t_shared *shared, int number_of_forks)
 {
-	t_mutex		*forks_arr;
+	t_mutex		*forks;
 	int			i;
 
-	forks_arr = (t_mutex *) malloc(number_of_forks * sizeof(t_mutex));
-	if (!forks_arr)
+	forks = (t_mutex *) malloc(number_of_forks * sizeof(t_mutex));
+	if (!forks)
 		return (0);
 	i = 0;
 	while (i < number_of_forks)
 	{
-		if (pthread_mutex_init(&forks_arr[i], NULL) != 0)
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
-			destroy_mutex_array(forks_arr, i);
+			destroy_mutex_array(forks, i);
 			return (0);
 		}
 		i++;
 	}
-	*forks = forks_arr;
+	shared->forks = forks;
 	return (1);
 }

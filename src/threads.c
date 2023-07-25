@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/21 23:05:52 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 17:24:44 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ static int	create_threads(pthread_t *threads, t_philo *philos,
 	t_shared *shared)
 {
 	int			i;
-	const int	max_philos = shared->number_of_philos;
 
 	i = 0;
 	pthread_mutex_lock(&shared->mutexes[SHOULD_START]);
-	while (i < max_philos)
+	while (i < shared->number_of_philos)
 	{
-		philos[i].time_last_eat = get_time();
 		if (pthread_create(&threads[i], NULL, &routine, &philos[i]) != 0)
 		{
 			pthread_mutex_unlock(&shared->mutexes[SHOULD_START]);
@@ -70,13 +68,12 @@ int	handle_threads(t_shared *shared, t_philo *philos)
 	if (!threads)
 	{
 		cleanup(philos, shared);
-		return (0);
+		return (ft_error("Threads malloc error", 0));
 	}
 	if (!create_threads(threads, philos, shared))
 	{
-		ft_error("Error creating threads\n", 0);
 		cleanup(philos, shared);
-		return (0);
+		return (ft_error("Error creating threads", 0));
 	}
 	ret = monitor(shared, philos);
 	join_threads(threads, shared->number_of_philos);
