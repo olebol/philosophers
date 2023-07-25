@@ -6,48 +6,22 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 20:59:46 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 23:42:08 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	lock_forks(t_philo *philo)
+static void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	if (!print_update(philo, "has taken a fork"))
-	{
-		pthread_mutex_unlock(philo->left_fork);
-		return (0);
-	}
+	print_update(philo, "has taken a fork");
 	pthread_mutex_lock(philo->right_fork);
-	if (!print_update(philo, "has taken a fork"))
-	{
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		return (0);
-	}
-	return (1);
-}
-
-static void	unlock_forks(t_philo *philo)
-{
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-}
-
-static int	eat(t_philo *philo)
-{
-	if (!lock_forks(philo))
-		return (0);
+	print_update(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	philo->time_last_eat = get_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
-	if (!print_update(philo, "is eating"))
-	{
-		unlock_forks(philo);
-		return (0);
-	}
+	print_update(philo, "is eating");
 	if (philo->shared->times_to_eat)
 	{
 		pthread_mutex_lock(&philo->eat_mutex);
@@ -55,8 +29,8 @@ static int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->eat_mutex);
 	}
 	ft_sleep(philo->shared->eat_time);
-	unlock_forks(philo);
-	return (1);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 static bool	should_start(t_shared *shared)
@@ -82,16 +56,16 @@ void	*routine(void *data)
 	philo->time_last_eat = get_time();
 	pthread_mutex_unlock(&philo->last_eat_mutex);
 	if (philo->id % 2)
-		usleep(500);
-	while (1)
 	{
-		if (!print_update(philo, "is thinking"))
-			break ;
-		if (!eat(philo))
-			break ;
-		if (!print_update(philo, "is sleeping"))
-			break ;
+		print_update(philo, "is thinking");
+		usleep((philo->shared->eat_time / 2) * 1000);
+	}
+	while (!should_stop(philo->shared))
+	{
+		eat(philo);
+		print_update(philo, "is sleeping");
 		ft_sleep(philo->shared->sleep_time);
+		print_update(philo, "is thinking");
 	}
 	return (NULL);
 }

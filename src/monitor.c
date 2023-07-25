@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 17:26:47 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 21:42:32 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ static bool	is_everyone_full(t_shared *shared, t_philo *philos)
 		pthread_mutex_unlock(&philos[i].eat_mutex);
 		i++;
 	}
-	pthread_mutex_lock(&shared->mutexes[PRINT]);
-	printf("\nAll philosophers have eaten %d times!\n", shared->times_to_eat);
-	pthread_mutex_unlock(&shared->mutexes[PRINT]);
 	return (true);
 }
 

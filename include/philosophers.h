@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 17:27:01 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/25 22:43:23 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdbool.h>
-
-# ifndef COLOUR_ON
-#  define COLOUR_ON 0
-# endif
 
 # define INVALID_ARGS "Invalid arguments"
 # define MUTEX_INIT "Mutex initialization failed"

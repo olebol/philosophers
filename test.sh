@@ -17,6 +17,10 @@ mkdir -p $error_dir
 # Set amount of tests
 echo -n "Test values: "
 read input
+if [ -z $input ]; then
+	echo "No input entered, using default \"199 190 60 60 10\""
+	input="199 190 60 60 10"
+fi
 echo -n "How many times should each test be run? Enter value: "
 read amount_of_tests
 if [ -z $amount_of_tests ]; then
@@ -49,3 +53,4 @@ for ((i = 1; i <= amount_of_tests; i++)); do
 	fi
 done
 printf "\nfailed $RED$amount_of_errors$RESET out of $GREEN$amount_of_tests$RESET tests\n\n"
+rm -rf out.txt
