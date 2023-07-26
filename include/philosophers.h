@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/26 13:49:39 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 14:29:20 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdbool.h>
-
-# define INVALID_ARGS "Invalid arguments"
-# define MUTEX_INIT "Mutex initialization failed"
-# define MUTEX_LOCK "Mutex locking failed"
-# define MUTEX_UNLOCK "Mutex unlocking failed"
 
 typedef enum e_shared_mutexes {
 	PRINT,

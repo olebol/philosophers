@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:39:39 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 15:13:28 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 14:28:33 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	init_last_eat_mutexes(t_philo *philos, int amount)
 		if (pthread_mutex_init(&philos[i].last_eat_mutex, NULL) != 0)
 		{
 			destroy_last_eat_mutexes(philos, i);
-			ft_error(MUTEX_INIT, 0);
-			return (0);
+			return (ft_error("Last eat mutexes initialization failed", 0));
 		}
 		i++;
 	}
@@ -40,8 +39,7 @@ int	init_eat_mutexes(t_philo *philos, int amount)
 		if (pthread_mutex_init(&philos[i].eat_mutex, NULL) != 0)
 		{
 			destroy_eat_mutexes(philos, i);
-			ft_error(MUTEX_INIT, 0);
-			return (0);
+			return (ft_error("Eat mutexes initialization failed", 0));
 		}
 		i++;
 	}
@@ -58,8 +56,7 @@ int	init_shared_mutexes(t_shared *shared)
 		if (pthread_mutex_init(&shared->mutexes[i], NULL) != 0)
 		{
 			destroy_mutex_array(shared->mutexes, i);
-			ft_error(MUTEX_INIT, 0);
-			return (0);
+			return (ft_error("Shared mutexes initialization failed", 0));
 		}
 		i++;
 	}
@@ -80,7 +77,7 @@ int	init_forks(t_shared *shared, int number_of_forks)
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
 			destroy_mutex_array(forks, i);
-			return (0);
+			return (ft_error("Fork mutexes initialization failed", 0));
 		}
 		i++;
 	}

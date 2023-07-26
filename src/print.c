@@ -6,13 +6,11 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 18:17:06 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 22:33:00 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 14:30:14 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include "colors.h"
-#define COLOUR_COUNT 5
 
 int	print_update(t_philo *philo, char *str)
 {
@@ -32,6 +30,6 @@ int	print_update(t_philo *philo, char *str)
 
 int	ft_error(char *str, int ret)
 {
-	printf("%s%s%s\n", C_RED, str, C_RESET);
+	printf("%s\n", str);
 	return (ret);
 }
