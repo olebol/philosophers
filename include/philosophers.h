@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:43:32 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 22:43:23 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 13:49:39 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_shared_data	t_shared;
 
 struct s_shared_data
 {
-	int			number_of_philos;
+	int			amount_of_philos;
 	int			philos_created;
 
 	int			death_time;

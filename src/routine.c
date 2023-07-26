@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/19 15:38:50 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 23:42:08 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 13:49:39 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	should_start(t_shared *shared)
 	pthread_mutex_lock(&shared->mutexes[SHOULD_START]);
 	created = shared->philos_created;
 	pthread_mutex_unlock(&shared->mutexes[SHOULD_START]);
-	if (created != shared->number_of_philos)
+	if (created != shared->amount_of_philos)
 		return (false);
 	return (true);
 }

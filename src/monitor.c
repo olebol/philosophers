@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 15:22:19 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 21:42:32 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 13:49:39 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_any_philosopher_dead(t_shared *shared, t_philo *philos)
 	int		i;
 
 	i = 0;
-	while (i < shared->number_of_philos)
+	while (i < shared->amount_of_philos)
 	{
 		pthread_mutex_lock(&philos[i].last_eat_mutex);
 		if (get_time() - philos[i].time_last_eat > (t_llu) shared->death_time)
@@ -37,7 +37,7 @@ static bool	is_everyone_full(t_shared *shared, t_philo *philos)
 	int		i;
 
 	i = 0;
-	while (i < shared->number_of_philos)
+	while (i < shared->amount_of_philos)
 	{
 		pthread_mutex_lock(&philos[i].eat_mutex);
 		if (philos[i].times_eaten < shared->times_to_eat)

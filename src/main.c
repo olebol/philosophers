@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 15:33:00 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/25 22:28:27 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 14:03:22 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,5 @@ int	main(int ac, char **av)
 		return (4);
 	if (!handle_threads(&shared, philos))
 		return (5);
-	cleanup(philos, &shared);
 	return (0);
 }
