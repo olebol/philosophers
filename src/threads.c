@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/18 22:57:22 by opelser       #+#    #+#                 */
-/*   Updated: 2023/07/26 14:03:18 by opelser       ########   odam.nl         */
+/*   Updated: 2023/07/26 17:36:08 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ int	handle_threads(t_shared *shared, t_philo *philos)
 	}
 	if (!create_threads(threads, philos, shared))
 	{
+		free(threads);
 		cleanup(philos, shared);
 		return (ft_error("Error creating threads", 0));
 	}
 	ret = monitor(shared, philos);
 	join_threads(threads, shared->amount_of_philos);
+	free(threads);
 	cleanup(philos, shared);
 	return (ret);
 }
